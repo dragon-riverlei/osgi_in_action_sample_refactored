@@ -82,5 +82,7 @@
 		<module>org.foo.paint</module>
 		<module>org.foo.shape</module>
 		<module>org.foo.shape.circle</module>
+		<module>org.foo.shape.square</module>
+		<module>org.foo.shape.triangle</module>
 	</modules>
 </project>

@@ -1,0 +1,40 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>osgi_in_action</groupId>
+		<artifactId>base</artifactId>
+		<version>0.0.1</version>
+	</parent>
+	<artifactId>org.foo.shape.triangle</artifactId>
+	<packaging>bundle</packaging>
+
+	<dependencies>
+		<dependency>
+			<groupId>osgi_in_action</groupId>
+			<artifactId>org.foo.shape</artifactId>
+			<version>${project.parent.version}</version>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.felix</groupId>
+				<artifactId>maven-bundle-plugin</artifactId>
+				<extensions>true</extensions>
+				<configuration>
+					<instructions>
+						<Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
+						<Private-Package>
+							org.foo.shape.triangle
+						</Private-Package>
+						<Extension-Name>Triangle</Extension-Name>
+						<Extension-Class>org.foo.shape.triangle.Triangle</Extension-Class>
+						<Extension-Icon>org/foo/shape/triangle/triangle.png</Extension-Icon>
+					</instructions>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+</project>
