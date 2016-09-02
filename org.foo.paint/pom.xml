@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>osgi_in_action</groupId>
 		<artifactId>base</artifactId>
-		<version>0.0.3</version>
+		<version>0.0.4-SNAPSHOT</version>
 	</parent>
 	<artifactId>org.foo.paint</artifactId>
 	<packaging>bundle</packaging>
