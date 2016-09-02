@@ -7,4 +7,16 @@
 		<version>0.0.2-SNAPSHOT</version>
 	</parent>
 	<artifactId>org.foo.paint</artifactId>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.osgi</groupId>
+			<artifactId>org.osgi.core</artifactId>
+		</dependency>
+		<dependency>
+		    <groupId>osgi_in_action</groupId>
+		    <artifactId>org.foo.shape</artifactId>
+		    <version>${project.parent.version}</version>
+		</dependency>
+	</dependencies>
 </project>

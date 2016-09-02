@@ -9,12 +9,25 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<osgi.ver>4.2.0</osgi.ver>
 	</properties>
 
 	<scm>
 		<connection>scm:git:file:///GitHub/dragon-riverlei/osgi_in_action</connection>
 		<tag>HEAD</tag>
 	</scm>
+	
+	
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.osgi</groupId>
+				<artifactId>org.osgi.core</artifactId>
+				<version>${osgi.ver}</version>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
 
 	<build>
 		<pluginManagement>
@@ -69,5 +82,6 @@
 	</distributionManagement>
 	<modules>
 		<module>org.foo.paint</module>
+		<module>org.foo.shape</module>
 	</modules>
 </project>
