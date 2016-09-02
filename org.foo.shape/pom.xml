@@ -7,4 +7,5 @@
 		<version>0.0.3-SNAPSHOT</version>
 	</parent>
 	<artifactId>org.foo.shape</artifactId>
+	<packaging>bundle</packaging>
 </project>
