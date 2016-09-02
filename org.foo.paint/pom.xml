@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>osgi_in_action</groupId>
 		<artifactId>base</artifactId>
-		<version>0.0.2-SNAPSHOT</version>
+		<version>0.0.2</version>
 	</parent>
 	<artifactId>org.foo.paint</artifactId>
 
@@ -14,9 +14,9 @@
 			<artifactId>org.osgi.core</artifactId>
 		</dependency>
 		<dependency>
-		    <groupId>osgi_in_action</groupId>
-		    <artifactId>org.foo.shape</artifactId>
-		    <version>${project.parent.version}</version>
+			<groupId>osgi_in_action</groupId>
+			<artifactId>org.foo.shape</artifactId>
+			<version>${project.parent.version}</version>
 		</dependency>
 	</dependencies>
 </project>

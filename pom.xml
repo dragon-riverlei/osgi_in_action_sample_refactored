@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>osgi_in_action</groupId>
 	<artifactId>base</artifactId>
-	<version>0.0.2-SNAPSHOT</version>
+	<version>0.0.2</version>
 	<packaging>pom</packaging>
 	<description>Sample code from book "OSGi in Action" refactored.</description>
 
@@ -14,10 +14,10 @@
 
 	<scm>
 		<connection>scm:git:file:///GitHub/dragon-riverlei/osgi_in_action</connection>
-		<tag>HEAD</tag>
+		<tag>base-0.0.2</tag>
 	</scm>
-	
-	
+
+
 
 	<dependencyManagement>
 		<dependencies>
