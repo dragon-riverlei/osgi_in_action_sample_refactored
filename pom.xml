@@ -81,5 +81,6 @@
 	<modules>
 		<module>org.foo.paint</module>
 		<module>org.foo.shape</module>
+		<module>org.foo.shape.circle</module>
 	</modules>
 </project>
