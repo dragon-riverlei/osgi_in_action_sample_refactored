@@ -84,5 +84,6 @@
 		<module>org.foo.shape.circle</module>
 		<module>org.foo.shape.square</module>
 		<module>org.foo.shape.triangle</module>
+		<module>org.foo.shell</module>
 	</modules>
 </project>
