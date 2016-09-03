@@ -26,9 +26,7 @@
 				<configuration>
 					<instructions>
 						<Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
-						<Private-Package>
-							org.foo.shape.square
-						</Private-Package>
+						<Export-Package></Export-Package>
 						<Extension-Name>Square</Extension-Name>
 						<Extension-Class>org.foo.shape.square.Square</Extension-Class>
 						<Extension-Icon>org/foo/shape/square/square.png</Extension-Icon>

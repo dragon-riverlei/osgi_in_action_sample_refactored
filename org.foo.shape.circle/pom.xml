@@ -26,9 +26,7 @@
 				<configuration>
 					<instructions>
 						<Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
-						<Private-Package>
-							org.foo.shape.circle
-						</Private-Package>
+						<Export-Package></Export-Package>
 						<Extension-Name>Circle</Extension-Name>
 						<Extension-Class>org.foo.shape.circle.Circle</Extension-Class>
 						<Extension-Icon>org/foo/shape/circle/circle.png</Extension-Icon>

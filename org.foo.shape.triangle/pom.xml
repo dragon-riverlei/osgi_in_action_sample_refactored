@@ -26,9 +26,7 @@
 				<configuration>
 					<instructions>
 						<Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
-						<Private-Package>
-							org.foo.shape.triangle
-						</Private-Package>
+						<Export-Package></Export-Package>
 						<Extension-Name>Triangle</Extension-Name>
 						<Extension-Class>org.foo.shape.triangle.Triangle</Extension-Class>
 						<Extension-Icon>org/foo/shape/triangle/triangle.png</Extension-Icon>
