@@ -21,8 +21,8 @@ package org.foo.paint;
 import java.awt.*;
 import javax.swing.ImageIcon;
 import org.foo.shape.SimpleShape;
-import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
+import org.osgi.framework.ServiceReference;
 
 /**
  * This class is used as a proxy to defer object creation from shape provider
@@ -32,13 +32,20 @@ import org.osgi.framework.BundleContext;
  * application. The proxy-related functionality is introduced as a way to lazily
  * create shape objects in an effort to improve performance; this level of
  * indirection could be removed if eager creation of objects is not a concern.
+ * Since this application uses the service-based extension appraoch, lazy shape
+ * creation will only come into effect if service providers register service
+ * factories instead of directly registering <tt>SimpleShape</tt> or if they use
+ * a technology like Declarative Services or iPOJO to register services. Since
+ * the example providers register services instances directly there is no
+ * laziness in the example, but the proxy approach is still used to demonstrate
+ * how to make laziness possible and to keep it similar to the extender-based
+ * approach.
  **/
 class DefaultShape implements SimpleShape {
   private SimpleShape m_shape;
   private ImageIcon m_icon;
   private BundleContext m_context;
-  private long m_bundleId;
-  private String m_className;
+  private ServiceReference m_ref;
 
   /**
    * This constructs a placeholder shape that draws a default icon. It is used
@@ -49,25 +56,34 @@ class DefaultShape implements SimpleShape {
   }
 
   /**
-   * This constructs a proxy shape that lazily instantiates the shape class from
-   * the associated extension bundle.
+   * This constructs a proxy shape that lazily gets the shape service.
    * 
-   * @param context The bundle context to use for retrieving the extension
-   *          bundle.
-   * @param bundleId The bundle ID of the extension bundle.
-   * @param className The class name of the shape.
+   * @param context The bundle context to use for retrieving the shape service.
+   * @param ref The service reference of the service.
    **/
-  public DefaultShape(BundleContext context, long bundleId, String className) {
+  public DefaultShape(BundleContext context, ServiceReference ref) {
     m_context = context;
-    m_bundleId = bundleId;
-    m_className = className;
+    m_ref = ref;
+  }
+
+  /**
+   * This method tells the proxy to dispose of its service object; this is
+   * called when the underlying service goes away.
+   **/
+  public void dispose() {
+    if (m_shape != null) {
+      m_context.ungetService(m_ref);
+      m_context = null;
+      m_ref = null;
+      m_shape = null;
+    }
   }
 
   /**
    * Implements the <tt>SimpleShape</tt> interface method. When acting as a
-   * proxy, this method lazily loads and instantiates the shape class and then
-   * uses it to draw the shape. When acting as a placeholder shape, this method
-   * draws the default icon.
+   * proxy, this method gets the shape service and then uses it to draw the
+   * shape. When acting as a placeholder shape, this method draws the default
+   * icon.
    * 
    * @param g2 The graphics object used for painting.
    * @param p The position to paint the triangle.
@@ -78,11 +94,8 @@ class DefaultShape implements SimpleShape {
     if (m_context != null) {
       try {
         if (m_shape == null) {
-          // Get the bundle.
-          Bundle bundle = m_context.getBundle(m_bundleId);
-          // Load the class and instantiate it.
-          Class clazz = bundle.loadClass(m_className);
-          m_shape = (SimpleShape) clazz.newInstance();
+          // Get the shape service.
+          m_shape = (SimpleShape) m_context.getService(m_ref);
         }
         // Draw the shape.
         m_shape.draw(g2, p);

@@ -27,7 +27,7 @@ import org.osgi.framework.*;
 /**
  * The activator of the host application bundle. The activator creates the main
  * application <tt>JFrame</tt> and starts tracking <tt>SimpleShape</tt>
- * extensions. All activity is performed on the Swing event thread to avoid
+ * services. All activity is performed on the Swing event thread to avoid
  * synchronization and repainting issues. Closing the application window will
  * result in <tt>Bundle.stop()</tt> being called on the system bundle, which
  * will cause the framework to shutdown and the JVM to exit.
@@ -38,8 +38,8 @@ public class Activator implements BundleActivator, Runnable {
   private ShapeTracker m_shapetracker = null;
 
   /**
-   * Displays the applications window and starts extension tracking; everything
-   * is done on the Swing event thread to avoid synchronization and repainting
+   * Displays the applications window and starts service tracking; everything is
+   * done on the Swing event thread to avoid synchronization and repainting
    * issues.
    * 
    * @param context The context of the bundle.
@@ -58,7 +58,7 @@ public class Activator implements BundleActivator, Runnable {
   }
 
   /**
-   * Stops extension tracking and disposes of the application window.
+   * Stops service tracking and disposes of the application window.
    * 
    * @param context The context of the bundle.
    **/

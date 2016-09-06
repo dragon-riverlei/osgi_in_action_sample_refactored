@@ -22,30 +22,24 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 
 /**
- * This interface defines the <tt>SimpleShape</tt> extension. This extension is
- * used to draw shapes. It is defined by three manifest properties:
+ * This interface defines the <tt>SimpleShape</tt> service. This service is used
+ * to draw shapes. It has two service properties:
  * <ul>
- * <li>Extension-Name - A <tt>String</tt> name for the shape.</li>
- * <li>Extension-Icon - An <tt>Icon</tt> resource for the shape.</li>
- * <li>Extension-Class - A <tt>Class</tt> that implements the shape.</li>
+ * <li>simple.shape.name - A <tt>String</tt> name for the shape.</li>
+ * <li>simple.shape.icon - An <tt>Icon</tt> for the shape.</li>
  * </ul>
  **/
 public interface SimpleShape {
 
   /**
-   * A property for the name of the shape.
+   * A service property for the name of the shape.
    **/
-  public static final String NAME_PROPERTY = "Extension-Name";
+  public static final String NAME_PROPERTY = "simple.shape.name";
 
   /**
-   * A property for the icon of the shape.
+   * A service property for the icon of the shape.
    **/
-  public static final String ICON_PROPERTY = "Extension-Icon";
-
-  /**
-   * A property for the class of the shape.
-   **/
-  public static final String CLASS_PROPERTY = "Extension-Class";
+  public static final String ICON_PROPERTY = "simple.shape.icon";
 
   /**
    * Draw this shape at the given position.

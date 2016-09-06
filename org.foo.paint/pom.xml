@@ -15,24 +15,28 @@
 			<artifactId>org.osgi.core</artifactId>
 		</dependency>
 		<dependency>
+			<groupId>org.osgi</groupId>
+			<artifactId>org.osgi.compendium</artifactId>
+		</dependency>
+		<dependency>
 			<groupId>osgi_in_action</groupId>
 			<artifactId>org.foo.shape</artifactId>
 			<version>${project.parent.version}</version>
 		</dependency>
 	</dependencies>
-	
+
 	<build>
-	    <plugins>
+		<plugins>
 			<plugin>
 				<groupId>org.apache.felix</groupId>
 				<artifactId>maven-bundle-plugin</artifactId>
 				<extensions>true</extensions>
 				<configuration>
 					<instructions>
-					    <Bundle-Activator>org.foo.paint.Activator</Bundle-Activator>
+						<Bundle-Activator>org.foo.paint.Activator</Bundle-Activator>
 						<Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
 						<Export-Package>
-						    org.foo.paint
+							org.foo.paint
 						</Export-Package>
 					</instructions>
 				</configuration>

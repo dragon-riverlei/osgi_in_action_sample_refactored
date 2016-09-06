@@ -18,24 +18,27 @@
  */
 package org.foo.paint;
 
-import java.util.Dictionary;
-import javax.swing.*;
+import javax.swing.Icon;
+import javax.swing.SwingUtilities;
 import org.foo.shape.SimpleShape;
-import org.osgi.framework.Bundle;
-import org.osgi.framework.BundleContext;
+import org.osgi.framework.*;
+import org.osgi.util.tracker.ServiceTracker;
 
 /**
- * Extends the <tt>BundleTracker</tt> to create a tracker for
- * <tt>SimpleShape</tt> extensions. The tracker is responsible for listening for
- * <tt>SimpleShape</tt> extensions and informing the application about the
- * availability of shapes. This tracker forces all notifications to be processed
- * on the Swing event thread to avoid synchronization and redraw issues.
+ * Extends the <tt>ServiceTracker</tt> to create a tracker for
+ * <tt>SimpleShape</tt> services. The tracker is responsible for listener for
+ * the arrival/departure of <tt>SimpleShape</tt> services and informing the
+ * application about the availability of shapes. This tracker forces all
+ * notifications to be processed on the Swing event thread to avoid
+ * synchronization and redraw issues.
  **/
-public class ShapeTracker extends BundleTracker {
+public class ShapeTracker extends ServiceTracker {
   // Flag indicating an added shape.
   private static final int ADDED = 1;
+  // Flag indicating a modified shape.
+  private static final int MODIFIED = 2;
   // Flag indicating a removed shape.
-  private static final int REMOVED = 2;
+  private static final int REMOVED = 3;
   // The bundle context used for tracking.
   private BundleContext m_context;
   // The application object to notify.
@@ -43,55 +46,72 @@ public class ShapeTracker extends BundleTracker {
 
   /**
    * Constructs a tracker that uses the specified bundle context to track
-   * extensions and notifies the specified application object about changes.
+   * services and notifies the specified application object about changes.
    * 
    * @param context The bundle context to be used by the tracker.
-   * @param frame The application object to notify about extension changes.
+   * @param frame The application object to notify about service changes.
    **/
   public ShapeTracker(BundleContext context, PaintFrame frame) {
-    super(context);
+    super(context, SimpleShape.class.getName(), null);
     m_context = context;
     m_frame = frame;
   }
 
   /**
-   * Overrides the <tt>BundleTracker</tt> functionality to inform the
-   * application object about the added extensions.
+   * Overrides the <tt>ServiceTracker</tt> functionality to inform the
+   * application object about the added service.
    * 
-   * @param bundle The activated bundle.
+   * @param ref The service reference of the added service.
+   * @return The service object to be used by the tracker.
    **/
-  protected void addedBundle(Bundle bundle) {
-    processBundleOnEventThread(ADDED, bundle);
+  public Object addingService(ServiceReference ref) {
+    SimpleShape shape = new DefaultShape(m_context, ref);
+    processShapeOnEventThread(ADDED, ref, shape);
+    return shape;
   }
 
   /**
-   * Overrides the <tt>BundleTracker</tt> functionality to inform the
-   * application object about removed extensions.
+   * Overrides the <tt>ServiceTracker</tt> functionality to inform the
+   * application object about the modified service.
    * 
-   * @param bundle The inactivated bundle.
+   * @param ref The service reference of the modified service.
+   * @param svc The service object of the modified service.
    **/
-  protected void removedBundle(Bundle bundle) {
-    processBundleOnEventThread(REMOVED, bundle);
+  public void modifiedService(ServiceReference ref, Object svc) {
+    processShapeOnEventThread(MODIFIED, ref, (SimpleShape) svc);
   }
 
   /**
-   * Processes a received bundle notification from the <tt>BundleTracker</tt>,
+   * Overrides the <tt>ServiceTracker</tt> functionality to inform the
+   * application object about the removed service.
+   * 
+   * @param ref The service reference of the removed service.
+   * @param svc The service object of the removed service.
+   **/
+  public void removedService(ServiceReference ref, Object svc) {
+    processShapeOnEventThread(REMOVED, ref, (SimpleShape) svc);
+    ((DefaultShape) svc).dispose();
+  }
+
+  /**
+   * Processes a received service notification from the <tt>ServiceTracker</tt>,
    * forcing the processing of the notification onto the Swing event thread if
    * it is not already on it.
    * 
    * @param action The type of action associated with the notification.
-   * @param bundle The bundle of the corresponding extension.
+   * @param ref The service reference of the corresponding service.
+   * @param shape The service object of the corresponding service.
    **/
-  private void processBundleOnEventThread(int action, Bundle bundle) {
+  private void processShapeOnEventThread(int action, ServiceReference ref, SimpleShape shape) {
     if ((m_context.getBundle(0).getState() & (Bundle.STARTING | Bundle.ACTIVE)) == 0) {
       return;
     }
 
     try {
       if (SwingUtilities.isEventDispatchThread()) {
-        processBundle(action, bundle);
+        processShape(action, ref, shape);
       } else {
-        SwingUtilities.invokeAndWait(new BundleRunnable(action, bundle));
+        SwingUtilities.invokeAndWait(new ShapeRunnable(action, ref, shape));
       }
     } catch (Exception ex) {
       ex.printStackTrace();
@@ -99,31 +119,26 @@ public class ShapeTracker extends BundleTracker {
   }
 
   /**
-   * Actually performs the processing of the bundle notification. Invokes the
+   * Actually performs the processing of the service notification. Invokes the
    * appropriate callback method on the application object depending on the
    * action type of the notification.
    * 
    * @param action The type of action associated with the notification.
-   * @param bundle The bundle of the corresponding extension.
+   * @param ref The service reference of the corresponding service.
+   * @param shape The service object of the corresponding service.
    **/
-  private void processBundle(int action, Bundle bundle) {
-    Dictionary dict = bundle.getHeaders();
-
-    // Try to get the name of the extension.
-    String name = (String) dict.get(SimpleShape.NAME_PROPERTY);
-    // Return immediately if the bundle is not an extension.
-    if (name == null) {
-      return;
-    }
+  private void processShape(int action, ServiceReference ref, SimpleShape shape) {
+    String name = (String) ref.getProperty(SimpleShape.NAME_PROPERTY);
 
     switch (action) {
+      case MODIFIED:
+        m_frame.removeShape(name);
+        // Purposely let this fall through to the 'add' case to
+        // reload the service.
+
       case ADDED:
-        // Get the icon resource of the extension.
-        String iconPath = (String) dict.get(SimpleShape.ICON_PROPERTY);
-        Icon icon = new ImageIcon(bundle.getResource(iconPath));
-        // Get the class of the extension.
-        String className = (String) dict.get(SimpleShape.CLASS_PROPERTY);
-        m_frame.addShape(name, icon, new DefaultShape(m_context, bundle.getBundleId(), className));
+        Icon icon = (Icon) ref.getProperty(SimpleShape.ICON_PROPERTY);
+        m_frame.addShape(name, icon, shape);
         break;
 
       case REMOVED:
@@ -133,30 +148,33 @@ public class ShapeTracker extends BundleTracker {
   }
 
   /**
-   * Simple class used to process bundle notification handling on the Swing
+   * Simple class used to process service notification handling on the Swing
    * event thread.
    **/
-  private class BundleRunnable implements Runnable {
+  private class ShapeRunnable implements Runnable {
     private int m_action;
-    private Bundle m_bundle;
+    private ServiceReference m_ref;
+    private SimpleShape m_shape;
 
     /**
-     * Constructs an object with the specified action and bundle object for
-     * processing on the Swing event thread.
+     * Constructs an object with the specified action, service reference, and
+     * service object for processing on the Swing event thread.
      * 
      * @param action The type of action associated with the notification.
-     * @param bundle The bundle of the corresponding extension.
+     * @param ref The service reference of the corresponding service.
+     * @param shape The service object of the corresponding service.
      **/
-    public BundleRunnable(int action, Bundle bundle) {
+    public ShapeRunnable(int action, ServiceReference ref, SimpleShape shape) {
       m_action = action;
-      m_bundle = bundle;
+      m_ref = ref;
+      m_shape = shape;
     }
 
     /**
-     * Calls the <tt>processBundle()</tt> method.
+     * Calls the <tt>processShape()</tt> method.
      **/
     public void run() {
-      processBundle(m_action, m_bundle);
+      processShape(m_action, m_ref, m_shape);
     }
   }
 }
