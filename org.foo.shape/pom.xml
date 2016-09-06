@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>osgi_in_action</groupId>
 		<artifactId>base</artifactId>
-		<version>0.2</version>
+		<version>0.2.0</version>
 	</parent>
 	<artifactId>org.foo.shape</artifactId>
 	<packaging>bundle</packaging>
@@ -19,7 +19,7 @@
 					<instructions>
 						<Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
 						<Export-Package>
-						    org.foo.shape
+						    org.foo.shape;version=${project.parent.version}
 						</Export-Package>
 					</instructions>
 				</configuration>
