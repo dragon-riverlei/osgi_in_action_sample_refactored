@@ -32,9 +32,6 @@
 					    <Bundle-Activator>org.foo.shape.triangle.Activator</Bundle-Activator>
 						<Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
 						<Export-Package></Export-Package>
-						<Extension-Name>Triangle</Extension-Name>
-						<Extension-Class>org.foo.shape.triangle.Triangle</Extension-Class>
-						<Extension-Icon>org/foo/shape/triangle/triangle.png</Extension-Icon>
 					</instructions>
 				</configuration>
 			</plugin>

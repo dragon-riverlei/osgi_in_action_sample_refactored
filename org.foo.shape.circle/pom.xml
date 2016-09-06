@@ -32,9 +32,6 @@
 						<Bundle-Activator>org.foo.shape.circle.Activator</Bundle-Activator>
 						<Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
 						<Export-Package></Export-Package>
-						<Extension-Name>Circle</Extension-Name>
-						<Extension-Class>org.foo.shape.circle.Circle</Extension-Class>
-						<Extension-Icon>org/foo/shape/circle/circle.png</Extension-Icon>
 					</instructions>
 				</configuration>
 			</plugin>
