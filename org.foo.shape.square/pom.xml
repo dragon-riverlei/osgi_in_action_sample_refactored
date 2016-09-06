@@ -32,6 +32,10 @@
 					    <Bundle-Activator>org.foo.shape.square.Activator</Bundle-Activator>
 						<Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
 						<Export-Package></Export-Package>
+						<Import-Package>
+							org.foo.shape;version="[0.0.2, 0.0.3)",
+							*
+						</Import-Package>
 					</instructions>
 				</configuration>
 			</plugin>

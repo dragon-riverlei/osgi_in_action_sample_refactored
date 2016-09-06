@@ -38,6 +38,10 @@
 						<Export-Package>
 							org.foo.paint
 						</Export-Package>
+						<Import-Package>
+							org.foo.shape;version="[0.0.2, 0.0.3)",
+							*
+						</Import-Package>
 					</instructions>
 				</configuration>
 			</plugin>
