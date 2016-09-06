@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>osgi_in_action</groupId>
 		<artifactId>base</artifactId>
-		<version>0.0.2</version>
+		<version>0.2</version>
 	</parent>
 	<artifactId>org.foo.paint</artifactId>
 	<packaging>bundle</packaging>
@@ -39,7 +39,7 @@
 							org.foo.paint
 						</Export-Package>
 						<Import-Package>
-							org.foo.shape;version="[0.0.2, 0.0.3)",
+							org.foo.shape;version="[0.2, 0.3)",
 							*
 						</Import-Package>
 					</instructions>

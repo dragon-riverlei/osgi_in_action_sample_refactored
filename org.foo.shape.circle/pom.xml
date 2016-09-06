@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>osgi_in_action</groupId>
 		<artifactId>base</artifactId>
-		<version>0.0.2</version>
+		<version>0.2</version>
 	</parent>
 	<artifactId>org.foo.shape.circle</artifactId>
 	<packaging>bundle</packaging>
@@ -33,7 +33,7 @@
 						<Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
 						<Export-Package></Export-Package>
 						<Import-Package>
-						    org.foo.shape;version="[0.0.2, 0.0.3)",
+						    org.foo.shape;version="[0.2, 0.3)",
 							*
 						</Import-Package>
 					</instructions>
