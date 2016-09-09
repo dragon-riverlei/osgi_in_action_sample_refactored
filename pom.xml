@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>osgi_in_action</groupId>
 	<artifactId>base</artifactId>
-	<version>0.2.0</version>
+	<version>0.3.0</version>
 	<packaging>pom</packaging>
 	<description>Sample code from book "OSGi in Action" refactored.</description>
 
@@ -90,5 +90,8 @@
 		<module>org.foo.shape.square</module>
 		<module>org.foo.shape.triangle</module>
 		<module>org.foo.shell</module>
+		<module>org.foo.shape.circle.fragment.l10n</module>
+		<module>org.foo.shape.square.fragment.l10n</module>
+		<module>org.foo.shape.triangle.fragment.l10n</module>
 	</modules>
 </project>

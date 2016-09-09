@@ -19,6 +19,7 @@
 package org.foo.shape.circle;
 
 import java.util.Hashtable;
+import java.util.ResourceBundle;
 import javax.swing.ImageIcon;
 import org.foo.shape.SimpleShape;
 import org.osgi.framework.BundleActivator;
@@ -31,7 +32,7 @@ import org.osgi.framework.BundleContext;
  * with the service properties indicating the service's name and icon.
  **/
 public class Activator implements BundleActivator {
-  private BundleContext m_context = null;
+  public static final String CIRCLE_NAME = "CIRCLE_NAME";
 
   /**
    * Implements the <tt>BundleActivator.start()</tt> method, which registers the
@@ -40,11 +41,12 @@ public class Activator implements BundleActivator {
    * @param context The context for the bundle.
    **/
   public void start(BundleContext context) {
-    m_context = context;
+    ResourceBundle rb = ResourceBundle.getBundle(
+      "org.foo.shape.circle.resource.Localize");
     Hashtable dict = new Hashtable();
-    dict.put(SimpleShape.NAME_PROPERTY, "Circle");
+    dict.put(SimpleShape.NAME_PROPERTY, rb.getString(CIRCLE_NAME));
     dict.put(SimpleShape.ICON_PROPERTY, new ImageIcon(this.getClass().getResource("circle.png")));
-    m_context.registerService(SimpleShape.class.getName(), new Circle(), dict);
+    context.registerService(SimpleShape.class.getName(), new Circle(), dict);
   }
 
   /**

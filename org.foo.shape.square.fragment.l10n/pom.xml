@@ -6,21 +6,9 @@
 		<artifactId>base</artifactId>
 		<version>0.3.0</version>
 	</parent>
-	<artifactId>org.foo.shape.circle</artifactId>
+	<artifactId>org.foo.shape.square.fragment.l10n</artifactId>
 	<packaging>bundle</packaging>
-
-	<dependencies>
-	    <dependency>
-			<groupId>org.osgi</groupId>
-			<artifactId>org.osgi.core</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>osgi_in_action</groupId>
-			<artifactId>org.foo.shape</artifactId>
-			<version>${project.parent.version}</version>
-		</dependency>
-	</dependencies>
-
+	
 	<build>
 		<plugins>
 			<plugin>
@@ -29,13 +17,9 @@
 				<extensions>true</extensions>
 				<configuration>
 					<instructions>
-						<Bundle-Activator>org.foo.shape.circle.Activator</Bundle-Activator>
 						<Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
 						<Export-Package></Export-Package>
-						<Import-Package>
-						    org.foo.shape;version="[${project.parent.version}, ${project.parent.version}]",
-						    *
-						</Import-Package>
+						<Fragment-Host>org.foo.shape.square;bundle-version="[${project.parent.version}, ${project.parent.version}]"</Fragment-Host>
 					</instructions>
 				</configuration>
 			</plugin>

@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>osgi_in_action</groupId>
 		<artifactId>base</artifactId>
-		<version>0.2.0</version>
+		<version>0.3.0</version>
 	</parent>
 	<artifactId>org.foo.shape.square</artifactId>
 	<packaging>bundle</packaging>
