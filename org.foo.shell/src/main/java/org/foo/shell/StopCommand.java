@@ -8,7 +8,7 @@ class StopCommand extends BasicCommand {
   public void exec(String args, PrintStream out, PrintStream err) throws Exception {
     Bundle bundle = getBundle(args);
 
-    if (bundle.equals(m_context.getBundle())) {
+    if (bundle == m_context.getBundle()) {
       new SelfStopThread(bundle).start();
     } else {
       bundle.stop();

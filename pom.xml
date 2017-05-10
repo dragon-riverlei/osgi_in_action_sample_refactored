@@ -29,6 +29,11 @@
 				<artifactId>org.osgi.compendium</artifactId>
 				<version>${osgi.ver}</version>
 			</dependency>
+			<dependency>
+				<groupId>org.apache.felix</groupId>
+				<artifactId>org.apache.felix.gogo.runtime</artifactId>
+				<version>0.10.0</version>
+			</dependency>
 		</dependencies>
 	</dependencyManagement>
 
@@ -93,5 +98,10 @@
 		<module>org.foo.shape.circle.fragment.l10n</module>
 		<module>org.foo.shape.square.fragment.l10n</module>
 		<module>org.foo.shape.triangle.fragment.l10n</module>
+		<module>commons.pool</module>
+		<module>commons.pool.test</module>
+		<module>com.packt.felix.bookshelf.service</module>
+		<module>com.packt.felix.bookshelf.inventory.api</module>
+		<module>com.packt.felix.bookshelf.service.tui</module>
 	</modules>
 </project>
